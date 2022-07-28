@@ -12,7 +12,9 @@ namespace TETRIS
         static int ConsoleRows = 1 + TetrisRows + 1;
         static int ConsoleCols = 1 + TetrisCols + 1 + InfoCols + 1;
         //State
+        static int Frame = 0;
         static int Score = 0;
+        static bool[,] TetrisField = new bool[TetrisRows, TetrisCols];
 
         static void Main(string[] args)
         {
@@ -30,27 +32,35 @@ namespace TETRIS
             {
                 while (true)
                 {
-                    Score++;
-
-                    // User input
+                    //Read user input
                     if (Console.KeyAvailable)
                     {
                         ConsoleKeyInfo key = Console.ReadKey();
+
                         if (key.Key == ConsoleKey.Escape)
                         {
                             //Environment.Exit(0);
-                            return;
+                            return; // Becase of Main()
                         }
+
+                        //TODO: Move current figure
                     }
 
-
-
-                    // change state (by user , other user or the game engine itself)
+                    // Update game state
+                   // if (Collision())
+                   // {
+                        //AddCurrentFigureToTetrisField();
+                        //CheckForFullLines();
+                        // if(lines remove) Score++;
+                   // }
 
                     // Redraw UI
                     DrawBorder();
                     DrawInfo();
+                    //TODO: DrawTetrisField()
+                    //TODO: DrawCurrentFigure()
 
+                    Frame++;
                     Thread.Sleep(40);  // - milisecundi
                 }
             }
@@ -60,6 +70,8 @@ namespace TETRIS
         {
             Write("Score:", 4 + TetrisCols, 1);
             Write(Score.ToString(), 4 + TetrisCols, 2);
+            Write("Frame:", 4 + TetrisCols,4);
+            Write(Frame.ToString(), 4 + TetrisCols, 5);
         }
 
         static void DrawBorder()
